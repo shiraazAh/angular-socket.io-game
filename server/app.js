@@ -2,9 +2,11 @@ const Express = require("express")();
 const Http = require("http").Server(Express);
 const Socketio = require("socket.io")(Http)
 
-var mainRectPosition = {
-    x: 200,
-    y: 200
+var rectPosition = {
+    mainX: 200,
+    mainY: 200,
+    bulletX: 205,
+    bulletY: 205
 };
 
 var bulletRectPosition = {
@@ -13,42 +15,37 @@ var bulletRectPosition = {
 }
 
 function shooting() {
-    return bulletRectPosition.x++
+    return rectPosition.bulletX++
 }
 
 Socketio.on("connection", socket => {
-    socket.emit("mainRectPosition", mainRectPosition);
-    socket.emit("bulletRectPosition", bulletRectPosition);
+    socket.emit("rectPosition", rectPosition);
     socket.on("move", data => {
         switch(data) {
             case "left":
-                mainRectPosition.x = mainRectPosition.x - 10;
-                bulletRectPosition.x = bulletRectPosition.x - 10;
-                Socketio.emit("mainRectPosition", mainRectPosition);
-                Socketio.emit("bulletRectPosition", bulletRectPosition);
+                rectPosition.mainX = rectPosition.mainX - 10;
+                rectPosition.bulletX = rectPosition.bulletX - 10;
+                Socketio.emit("rectPosition", rectPosition);
                 break;
             case "right":
-                mainRectPosition.x = mainRectPosition.x + 10;
-                bulletRectPosition.x = bulletRectPosition.x + 10;
-                Socketio.emit("mainRectPosition", mainRectPosition);
-                Socketio.emit("bulletRectPosition", bulletRectPosition);
+                rectPosition.mainX = rectPosition.mainX + 10;
+                rectPosition.bulletX = rectPosition.bulletX + 10;
+                Socketio.emit("rectPosition", rectPosition);
                 break;
             case "up":
-                mainRectPosition.y = mainRectPosition.y - 10;
-                bulletRectPosition.y = bulletRectPosition.y - 10;
-                Socketio.emit("mainRectPosition", mainRectPosition);
-                Socketio.emit("bulletRectPosition", bulletRectPosition);
+                rectPosition.mainY = rectPosition.mainY - 10;
+                rectPosition.bulletY = rectPosition.bulletY - 10;
+                Socketio.emit("rectPosition", rectPosition);
                 break;
             case "down":
-                mainRectPosition.y = mainRectPosition.y + 10;
-                bulletRectPosition.y = bulletRectPosition.y + 10;
-                Socketio.emit("mainRectPosition", mainRectPosition);
-                Socketio.emit("bulletRectPosition", bulletRectPosition);
+                rectPosition.mainY = rectPosition.mainY + 10;
+                rectPosition.bulletY = rectPosition.bulletY + 10;
+                Socketio.emit("rectPosition", rectPosition);
                 break;
             case "shoot":
                 setInterval(shooting, 10);
                 setInterval(() => {
-                    Socketio.emit("bulletRectPosition", bulletRectPosition);
+                    Socketio.emit("rectPosition", rectPosition);
                 }, 100);
         }
     })
