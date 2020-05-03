@@ -53,5 +53,8 @@ export class AppComponent implements OnInit {
     renderer.listen('document', 'keydown.arrowleft', (event) => {
       return this.move('left');
     });
+    renderer.listen('document', 'keydown.space', (event) => {
+      return this.move('shoot');
+    });
  }
 }
