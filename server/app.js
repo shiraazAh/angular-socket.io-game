@@ -2,6 +2,7 @@ const Express = require("express")();
 const Http = require("http").Server(Express);
 const Socketio = require("socket.io")(Http)
 
+// Player One Position
 var rectPosition = {
     mainX: 200,
     mainY: 200,
@@ -9,19 +10,19 @@ var rectPosition = {
     bulletY: 205
 };
 
-var bulletRectPosition = {
-    x: 205,
-    y: 205
-}
-
+//Player One shooting Function
 function shooting() {
     return rectPosition.bulletX++
 }
 
+// On Connection
 Socketio.on("connection", socket => {
+    //Sending players Position
     socket.emit("rectPosition", rectPosition);
+    // Code For Player Movement And Shooting
     socket.on("move", data => {
         switch(data) {
+            // Player Movement
             case "left":
                 rectPosition.mainX = rectPosition.mainX - 10;
                 rectPosition.bulletX = rectPosition.bulletX - 10;
@@ -42,6 +43,7 @@ Socketio.on("connection", socket => {
                 rectPosition.bulletY = rectPosition.bulletY + 10;
                 Socketio.emit("rectPosition", rectPosition);
                 break;
+                //Player Shooting.
             case "shoot":
                 setInterval(shooting, 10);
                 setInterval(() => {
@@ -50,7 +52,7 @@ Socketio.on("connection", socket => {
         }
     })
 })
-
+// Listen to server.
 Http.listen(3000, () => {
     console.log("listening at port 3000......")
 })

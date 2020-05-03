@@ -36,10 +36,12 @@ export class AppComponent implements OnInit {
     });
   }
 
+  // Send Info To Players
   public move(direction: string){
     this.socket.emit('move', direction);
   }
 
+  // Keys For Players
   constructor(public el: ElementRef, public renderer: Renderer2) {
     renderer.listen('document', 'keydown.arrowup', (event) => {
       return this.move('up');
