@@ -4,10 +4,10 @@ const Socketio = require("socket.io")(Http)
 
 // Player One Position
 var rectPosition = {
-    mainX: 200,
-    mainY: 200,
-    bulletX: 205,
-    bulletY: 205
+    mainX: 100,
+    mainY: 230,
+    bulletX: 105,
+    bulletY: 235
 };
 
 //Player One shooting Function
@@ -23,16 +23,6 @@ Socketio.on("connection", socket => {
     socket.on("move", data => {
         switch(data) {
             // Player Movement
-            case "left":
-                rectPosition.mainX = rectPosition.mainX - 10;
-                rectPosition.bulletX = rectPosition.bulletX - 10;
-                Socketio.emit("rectPosition", rectPosition);
-                break;
-            case "right":
-                rectPosition.mainX = rectPosition.mainX + 10;
-                rectPosition.bulletX = rectPosition.bulletX + 10;
-                Socketio.emit("rectPosition", rectPosition);
-                break;
             case "up":
                 rectPosition.mainY = rectPosition.mainY - 10;
                 rectPosition.bulletY = rectPosition.bulletY - 10;
@@ -52,7 +42,7 @@ Socketio.on("connection", socket => {
         }
     })
 })
-// Listen to server.
+// Listen to server. 
 Http.listen(3000, () => {
     console.log("listening at port 3000......")
 })
