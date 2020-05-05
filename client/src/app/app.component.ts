@@ -33,6 +33,10 @@ export class AppComponent implements OnInit {
       this.clearRect();
       this.mainRect = this.context.fillRect(rectPosition.mainX, rectPosition.mainY, 20, 20);
       this.bulletRect = this.context.fillRect(rectPosition.bulletX, rectPosition.bulletY, 5, 5);
+      this.context.beginPath();
+      this.context.moveTo(280, 0);
+      this.context.lineTo(280, 480);
+      this.context.stroke();
     });
   }
 
