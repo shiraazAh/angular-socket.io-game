@@ -10,6 +10,8 @@ var rectPosition = {
     bulletY: 235
 };
 
+let waitingPlayer = null;
+
 //Player One shooting Function
 function shooting() {
     return rectPosition.bulletX++
@@ -17,8 +19,16 @@ function shooting() {
 
 // On Connection
 Socketio.on("connection", socket => {
-    //Sending players Position
-    socket.emit("rectPosition", rectPosition);
+    
+    if(waitingPlayer) {
+        socket.emit("msg", 'Got opponent');
+        waitingPlayer.emit("msg", 'Got opponent')
+            //Sending players Position
+        Socketio.emit("rectPosition", rectPosition);
+    } else {
+        waitingPlayer = socket;
+        waitingPlayer.emit("msg", 'Waiting For opponent');
+    }
     // Code For Player Movement And Shooting
     socket.on("move", data => {
         switch(data) {

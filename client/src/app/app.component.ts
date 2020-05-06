@@ -38,11 +38,18 @@ export class AppComponent implements OnInit {
       this.context.lineTo(280, 480);
       this.context.stroke();
     });
+    this.socket.on('msg', data => {
+      this.consoleOut(data);
+    });
   }
 
   // Send Info To Players
   public move(direction: string){
     this.socket.emit('move', direction);
+  }
+
+  public consoleOut (str: string){
+    console.log(str);
   }
 
   // Keys For Players
