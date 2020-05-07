@@ -2,12 +2,22 @@ const Express = require("express")();
 const Http = require("http").Server(Express);
 const Socketio = require("socket.io")(Http)
 
+class GamePlayers {
+    constructor(p1, p2){
+        this.players = [p1, p2];
+    }
+}
+
 // Player One Position
 var rectPosition = {
     mainX: 100,
     mainY: 230,
     bulletX: 105,
-    bulletY: 235
+    bulletY: 235,
+    secondX: 460,
+    secondY: 230,
+    secondBulletX: 455,
+    secondBulletY: 225
 };
 
 let waitingPlayer = null;
@@ -51,6 +61,28 @@ Socketio.on("connection", socket => {
                 }, 100);
         }
     })
+
+    waitingPlayer.on("move", data => {
+        switch(data) {
+            // Player Movement
+            case "up":
+                rectPosition.secondY = rectPosition.secondY - 10;
+                rectPosition.secondBulletY = rectPosition.secondBulletY - 10;
+                Socketio.emit("rectPosition", rectPosition);
+                break;
+            case "down":
+                rectPosition.secondY = rectPosition.secondY + 10;
+                rectPosition.secondBulletY = rectPosition.secondBulletY + 10;
+                Socketio.emit("rectPosition", rectPosition);
+                break;
+                //Player Shooting.
+            case "shoot":
+                setInterval(shooting, 10);
+                setInterval(() => {
+                    Socketio.emit("rectPosition", rectPosition);
+                }, 100);
+            }
+        })
 })
 // Listen to server. 
 Http.listen(3000, () => {
