@@ -18,6 +18,10 @@ class GamePlayers {
             secondBulletY: 225
         };
 
+        this.shooting = () => {
+                return this.rectPosition.bulletX++;
+        }
+
         Socketio.emit("rectPosition", this.rectPosition);
 
         this.playerOne.on('move', data => {
@@ -37,7 +41,7 @@ class GamePlayers {
                         case "shoot":
                             setInterval(this.shooting, 10);
                             setInterval(() => {
-                                Socketio.emit("rectPosition", rectPosition);
+                                Socketio.emit("rectPosition", this.rectPosition);
                             }, 100);
                     }
                 })
@@ -59,7 +63,7 @@ class GamePlayers {
                         case "shoot":
                             setInterval(this.shooting, 10);
                             setInterval(() => {
-                                Socketio.emit("rectPosition", rectPosition);
+                                Socketio.emit("rectPosition", this.rectPosition);
                             }, 100);
                     }
                 })
