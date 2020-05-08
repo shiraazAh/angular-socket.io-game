@@ -15,8 +15,12 @@ class GamePlayers {
             secondBulletY: 225
         };
 
-        this.shooting = () => {
+        this.shootingP1 = () => {
                 return this.rectPosition.bulletX++;
+        }
+
+        this.shootingP2 = () => {
+                return this.rectPosition.secondBulletX--;
         }
 
         this.emitEverywhere = () => {
@@ -40,7 +44,7 @@ class GamePlayers {
                             break;
                             //Player Shooting.
                         case "shoot":
-                            setInterval(this.shooting, 10);
+                            setInterval(this.shootingP1, 10);
                             setInterval(() => {
                                 this.emitEverywhere();
                             }, 100);
@@ -62,7 +66,7 @@ class GamePlayers {
                             break;
                             //Player Shooting.
                         case "shoot":
-                            setInterval(this.shooting, 10);
+                            setInterval(this.shootingP2, 10);
                             setInterval(() => {
                                 this.emitEverywhere();
                             }, 100);
