@@ -23,10 +23,6 @@ class GamePlayers {
                 return this.rectPosition.secondBulletX--;
         }
 
-        this.emitEverywhere = () => {
-            return this.players.forEach(player => player.emit("rectPosition", this.rectPosition));
-        }
-
         this.emitEverywhere();
 
         this.playerOne.on('move', data => {
@@ -47,7 +43,7 @@ class GamePlayers {
                             setInterval(this.shootingP1, 10);
                             setInterval(() => {
                                 this.emitEverywhere();
-                            }, 100);
+                            }, 10);
                     }
                 })
         
@@ -69,10 +65,14 @@ class GamePlayers {
                             setInterval(this.shootingP2, 10);
                             setInterval(() => {
                                 this.emitEverywhere();
-                            }, 100);
+                            }, 10);
                     }
                 })
-            }; 
+            }
+
+        emitEverywhere() {
+            return this.players.forEach(player => player.emit("rectPosition", this.rectPosition));
+        }
     }
 
     module.exports = GamePlayers;
