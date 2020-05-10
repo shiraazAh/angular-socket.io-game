@@ -19,6 +19,10 @@ Socketio.on("connection", socket => {
     }
 })
 // Listen to server. 
+Http.on('error', (err) => {
+    console.error('Server Error', err)
+})
+
 Http.listen(3000, () => {
     console.log("listening at port 3000......")
 })
